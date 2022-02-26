@@ -1,11 +1,35 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+
 float amount(float rate, int quantity, float discount, float vat);
+int inventory ();
+int taxinvoice() {
+	int itemcode;
+	float price;
+		
+
+
 void main()
 {
+	int n;
 	system("clear");
-	int j, quantity, cash, w = 0;
+	printf("\t\t\t\t MAIN MENU \t\t\t\t\n");
+	printf("0. Show Inventory\n");
+	printf("1. Prepare Tax Invoice\n");
+	printf("Enter Your Choice: ");
+	scanf("%d",&n);
+	if (n ==0) {
+		inventory();
+	}
+	else if (n==1){
+		printf("Code here\n");
+	}
+	else {
+		printf("Invalid Entry\n");
+	}
+
+	int i=1,j, quantity, cash, w = 0;
 	long cash_received, newt_amount;
 	float rate, discount, vat, t_amount=0, amount1, float_part;
 	char itemcode[5], date[20];
@@ -13,18 +37,9 @@ void main()
 	printf("\t\t\t\tOnampalli Junction, Kandalloor North\n");
 	printf("\t\t\t\tPhone: 9999999999\n");
 	printf("----------------------------------------------------------------------------------------------------------------\n");
-	printf(" ENTER '0' FOR COMPLETE PRODUCT LIST:\n");
-	printf(" 1. Sunsilk Anti Dandruff Smooth and Silky Shampoo(375ml bottle) @ Rs.290.00\n\t\t@ 25%s discount\t@ 2.5%s VAT\n", "%", "%");
-	printf(" 2. V-Three casual bagpack @ Rs.745.00\n\t\t@ 50%s discount\t@ 10.5%s VAT\n", "%", "%");
-	printf(" 3. Adidas Men's T-Shirt-Red (Size L) @ Rs.275.00\n\t\t@ 30%s discount\t @ 7.25%s VAT\n", "%", "%");
-	printf(" 4. Cadbury Silk Chocolates - Pack Of 10 @ Rs.800.00\n\t\t@ 20%s discount\t @ 9%s VAT\n", "%", "%");
-	printf(" 5. Chings Chinese - Instant Noodles 100 gm @ Rs.10.00\n\t\t\t\t @ 0.25%s VAT\n", "%");
-	printf(" 6. Tupperware water bottle - 750 ml @ Rs.999.00\n\t\t@ 10%s discount\t @ 9.3%s VAT\n", "%", "%");
-	printf(" 7. Sensodyne Cavity Protection Regular Toothpaste Tube (75 ml) @ Rs.93.95\n\t\t@ 2%s discount\t@ 4.5%s VAT\n", "%", "%");
-	printf(" 8. Pepsodent Super-Flexy toothbrush @ Rs.17.00\n\t\t@ 4%s discount\t @ 3%s VAT\n", "%", "%");
-	printf(" 9. Nivia Tennis ball - Pack of 12 @ Rs.810.00\n\t\t@ 12%s discount\t @ 8.75%s VAT\n", "%", "%");
-	printf("10. Sparx Men's Free Trainer 5.0 Outdoor Multisport Training Shoes (Size 8/9/10) @ Rs.8000.00\n\t\t@ 18%s discount\t @ 14%s VAT\n", "%", "%");
+	printf("############################## ENTER '0' FOR COMPLETE PRODUCT LIST:################################\n");
 	printf("----------------------------------------------------------------------------------------------------------------\n");
+
 	printf("DATE:");
 	fgets(date, 20, stdin);
 	printf("\t\t\tCASH MEMO - RETAIL INVOICE\n");
@@ -35,6 +50,9 @@ void main()
 	for(j = 1; j!= 0; j++)
 	{
 		fgets(itemcode, 5, stdin);
+		if(strcmp(itemcode, "0\n") == 0) {
+			inventory();
+		}
 		if(strcmp(itemcode, "1\n") == 0)
 		{
 			printf("\tSunsilk Anti Dandruff Smooth and Silky Shampoo(375ml bottle)\t\t\t\t   ");
@@ -208,3 +226,25 @@ float amount(float p, int q, float r, float s)
 	z = ((p * q) - (p * q * r / 100)) + (((p * q) - (p * q * r / 100)) * s / 100);
 	return z;
 }
+int inventory (){
+    char *filename = "readme.txt";
+    FILE *fp = fopen(filename, "r");
+
+    if (fp == NULL)
+    {
+        printf("Error: could not open file %s", filename);
+        return 1;
+    }
+
+    // read one character at a time and
+    // display it to the output
+    char ch;
+    while ((ch = fgetc(fp)) != EOF)
+        putchar(ch);
+
+    // close the file
+    fclose(fp);
+
+    return 0;
+}
+
