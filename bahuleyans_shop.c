@@ -2,33 +2,175 @@
 #include<stdlib.h>
 #include<string.h>
 
+int main_exit;
 float amount(float rate, int quantity, float discount, float vat);
 int inventory ();
-int taxinvoice() {
-	int itemcode;
-	float price;
-		
+//int taxinvoice() {
+//	int itemcode;
+//	float price;
+//		
+//
+struct {
+  int itemcode;
+  int total_qty;
+  char itemname[30];
+  float price;
+}add,del,sta,inv;
+int stock_add();
+int stock_deletion();
+int stock_status();
+int prepare_invoice();
 
+//////////////////////////////////////////////////////////////////////////////
+//--------------------------------STOCK ADDITION-----------------------------
+/////////////////////////////////////////////////////////////////////////////
 
-void main()
+int stock_add() {
+  int choice;
+  FILE *ptr;
+  ptr=fopen("record.dat","a+");
+
+item_code:
+  system("clear");
+  printf("\t\t\t NEW ITEM ADDITION\n");
+  printf("Enter Item Code:");
+  scanf("%d", &sta.itemcode);
+  while(fscanf(ptr,"%d %s %d %f\n",&add.itemcode,add.itemname,&add.total_qty,&add.price)!=EOF)
+  {
+    if(sta.itemcode==add.itemcode)
+    {
+      printf("Itemcode already in use!");
+      goto item_code;
+    }
+  }
+  add.itemcode=sta.itemcode;
+  
+  printf("\nEnter the Item Name: ");
+  scanf("%s",add.itemname);
+
+  printf("\nEnter the Total Quantity: ");
+  scanf("%d",&add.total_qty);
+
+  printf("\nEnter the item price: ");
+  scanf("%f",&add.price);
+
+  fprintf(ptr,"%d %s %d %f\n",add.itemcode,add.itemname,add.total_qty,add.price);
+  
+  fclose(ptr);
+  printf("\n Entry created successfully");
+
+add_invalid:
+  printf("\n\n Enter 1 to go to the main menu and 0 to exit:");
+  scanf("%d", &main_exit);
+  system("clear");
+  if (main_exit==1)
+    menu();
+  else if (main_exit==0)
+    close();
+  else
+  {
+    printf("\nInvalid!\a");
+    goto add_invalid;
+  }
+  return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+//-------------------------CLOSE FUNCTION----------------------------------//
+/////////////////////////////////////////////////////////////////////////////
+
+void close(void)
 {
-	int n;
+  printf("\n\n\n\nA VADAKKODAN group Project\n");
+}
+
+
+int stock_deletion() {
+  return 0;
+}
+///////////////////////////////////////////////////////////////////////////
+//---------------- The function to view list----------------------------//
+//////////////////////////////////////////////////////////////////////////
+
+int stock_status() {
+    FILE *view;
+    view=fopen("record.dat","r");
+    int test=0;
+    system("clear");
+    printf("\nItem Code \tItem Name \tTotal Quantity \t\tPrice\n");
+
+    while(fscanf(view,"%d %s %d %f\n",&add.itemcode,add.itemname,&add.total_qty,&add.price)!=EOF)
+    //while(fscanf(view,"%d %s %f",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+       {
+           printf("\n%6d \t\t%10s \t\t%6d \t\t%0.2f",add.itemcode,add.itemname,add.total_qty,add.price);
+           test++;
+       }
+
+    fclose(view);
+    if (test==0) {
+      system("clear");
+      printf("\nNO RECORDS!!\n");
+    }
+
+    view_list_invalid:
+     printf("\n\nEnter 1 to go to the main menu and 0 to exit:");
+        scanf("%d",&main_exit);
+        system("clear");
+        if (main_exit==1)
+            menu();
+        else if(main_exit==0)
+            close();
+        else
+        {
+            printf("\nInvalid!\a");
+            goto view_list_invalid;
+        }
+ 
+  return 0;
+}
+
+//---------------------------------------------------------------------------------------
+//Prepare Invoice section
+//---------------------------------------------------------------------------------------
+
+int prepare_invoice() {
+
+  return 0;
+}
+
+//---------------------------------------------------------------------------------------
+// --------------------------------MAIN MENU----------------------------------
+int menu() {
+  int choice;
 	system("clear");
 	printf("\t\t\t\t MAIN MENU \t\t\t\t\n");
-	printf("0. Show Inventory\n");
-	printf("1. Prepare Tax Invoice\n");
-	printf("Enter Your Choice: ");
-	scanf("%d",&n);
-	if (n ==0) {
-		inventory();
-	}
-	else if (n==1){
-		printf("Code here\n");
-	}
-	else {
-		printf("Invalid Entry\n");
-	}
+	printf("1.Stock Add \n");
+	printf("2.Stock Deletion\n");
+	printf("3.Stock Status\n");
+	printf("4.Prepare Invoice\n");
+	printf("Enter Your Choice:\n");
 
+	
+  scanf("%d",&choice);
+
+    system("clear");
+    switch(choice)
+    {
+        case 1:stock_add();
+        break;
+        case 2:stock_deletion();
+        break;
+        case 3:stock_status();
+        break;
+        case 4:prepare_invoice ();
+        break;
+        default:prepare_invoice();
+    }
+    return 0;
+    
+}
+int main() {
+  menu();
 	int i=1,j, quantity, cash, w = 0;
 	long cash_received, newt_amount;
 	float rate, discount, vat, t_amount=0, amount1, float_part;
@@ -219,6 +361,7 @@ void main()
 	printf("\t\t\tTerms and conditions apply.*\n");
 	printf("\t\t\t** Thank you for shopping with us **\n");
 	printf("\n*Any goods purchased from us can be exchanged along with presenting the original cash memo within 15 days from the date of purchase on any working day. Any electrical appliance purchased, is eligible for repair under warranty only if the original cash memo is shown.\n");
+return 0;
 }
 float amount(float p, int q, float r, float s)
 {
@@ -226,6 +369,7 @@ float amount(float p, int q, float r, float s)
 	z = ((p * q) - (p * q * r / 100)) + (((p * q) - (p * q * r / 100)) * s / 100);
 	return z;
 }
+
 int inventory (){
     char *filename = "readme.txt";
     FILE *fp = fopen(filename, "r");
