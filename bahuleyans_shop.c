@@ -5,16 +5,12 @@
 int main_exit;
 float amount(float rate, int quantity, float discount, float vat);
 int inventory ();
-//int taxinvoice() {
-//	int itemcode;
-//	float price;
-//		
-//
 struct {
   int itemcode;
   int total_qty;
   char itemname[30];
   float price;
+  float value;
 }add,del,sta,inv;
 int stock_add();
 int stock_deletion();
@@ -22,7 +18,7 @@ int stock_status();
 int prepare_invoice();
 
 //////////////////////////////////////////////////////////////////////////////
-//--------------------------------STOCK ADDITION-----------------------------
+//--------------------------------STOCK ADDITION----------------------------//
 /////////////////////////////////////////////////////////////////////////////
 
 int stock_add() {
@@ -89,7 +85,7 @@ int stock_deletion() {
   return 0;
 }
 ///////////////////////////////////////////////////////////////////////////
-//---------------- The function to view list----------------------------//
+//--------------------- STOCK DETAILS VIEW-------------------------------//
 //////////////////////////////////////////////////////////////////////////
 
 int stock_status() {
@@ -100,7 +96,6 @@ int stock_status() {
     printf("\nItem Code \tItem Name \tTotal Quantity \t\tPrice\n");
 
     while(fscanf(view,"%d %s %d %f\n",&add.itemcode,add.itemname,&add.total_qty,&add.price)!=EOF)
-    //while(fscanf(view,"%d %s %f",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
        {
            printf("\n%6d \t\t%10s \t\t%6d \t\t%0.2f",add.itemcode,add.itemname,add.total_qty,add.price);
            test++;
@@ -129,17 +124,74 @@ int stock_status() {
   return 0;
 }
 
-//---------------------------------------------------------------------------------------
-//Prepare Invoice section
-//---------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////
+//------------------------- SUM CALCULATION -----------------------------//
+//////////////////////////////////////////////////////////////////////////
+
+float total(float p, int q)
+{
+	float z;
+	z = (p * q );
+	return z;
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+//--------------------- PREPARE INVOICE ---------------------------------//
+//////////////////////////////////////////////////////////////////////////
 
 int prepare_invoice() {
+	printf("\t\t\t\tBAHULEYANS' MART");
+	printf("\n----------------------------------------------------------------------------------------------------------------");
+  printf("\n\t\t\t\tCIN:KL91400MHPL2163");
+  printf("\n\t\t\t\tGSTIN:29AACCA8432H1ZM");
+  printf("\n\t\t\t\tFSSAI NO: 11214333001591");
+	printf("\n----------------------------------------------------------------------------------------------------------------");
+	printf("\n\t\t\t\tOnampalli Junction");
+  printf("\n\t\t\tBinu Bhavanam, Kandalloor North");
+  printf("\n\t\t\tPattolimarket PO, Alapuzha- 690531");
+	printf("\n\t\t\t\tPhone: 9746516926\n");
+	printf("----------------------------------------------------------------------------------------------------------------\n");
+  printf("\t\t\t\t\t\t TAX INVOICE");
+  printf("\nBill No:\t\t\t\tBill Date:");
+  printf("\nVou.No:\t\t\t\tCashier:");
+	printf("\n----------------------------------------------------------------------------------------------------------------\n");
+	printf("CODE\tPARTICULARS\t\t\t\t\t\t\t\tQTY\t\t N/RATE\t\t VALUE\n");
+	printf("----------------------------------------------------------------------------------------------------------------\n");
+ 
+   
+bill:
+  FILE *ptr;
+  int test=0,rate;
+  int choice;
+  ptr=fopen("record.dat","r");
+  scanf("%d", &inv.itemcode);
+  choice = inv.itemcode;
 
+
+  while(fscanf(ptr,"%d %s %d %f\n",&add.itemcode,add.itemname,&add.total_qty,&add.price)!=EOF) {
+    if (add.itemcode == inv.itemcode) {
+      test = 1;
+      printf ("\t%s\t\t\t\t%02.f\t\t\t\t", add.itemname,add.price);
+    }
+  }
+
+  scanf("%d", &inv.total_qty);
+  getchar();
+  inv.value = total (add.price, inv.total_qty);
+  printf("\t\t\t\t\t\t\t\t%0.2f\n",inv.value);
+ }
   return 0;
 }
 
-//---------------------------------------------------------------------------------------
-// --------------------------------MAIN MENU----------------------------------
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//------------------------------- MENU ---------------------------------//
+//////////////////////////////////////////////////////////////////////////
+
 int menu() {
   int choice;
 	system("clear");
@@ -169,27 +221,18 @@ int menu() {
     return 0;
     
 }
+
+///////////////////////////////////////////////////////////////////////////////////
+//---------------------------MAIN FUNCTION--------------------------------------//
+//////////////////////////////////////////////////////////////////////////////////
+
 int main() {
   menu();
-	int i=1,j, quantity, cash, w = 0;
+/*	int i=1,j, quantity, cash, w = 0;
 	long cash_received, newt_amount;
 	float rate, discount, vat, t_amount=0, amount1, float_part;
 	char itemcode[5], date[20];
-	printf("\t\t\t\tBAHULEYANS' SHOP\n");
-	printf("\t\t\t\tOnampalli Junction, Kandalloor North\n");
-	printf("\t\t\t\tPhone: 9999999999\n");
-	printf("----------------------------------------------------------------------------------------------------------------\n");
-	printf("############################## ENTER '0' FOR COMPLETE PRODUCT LIST:################################\n");
-	printf("----------------------------------------------------------------------------------------------------------------\n");
-
-	printf("DATE:");
-	fgets(date, 20, stdin);
-	printf("\t\t\tCASH MEMO - RETAIL INVOICE\n");
-	printf("----------------------------------------------------------------------------------------------------------------\n");
-	printf("CODE\tITEM NAME\t\t\t\t\t\t\t\t\t\tQUANTITY\n");
-	printf("\tAMOUNT(Rs.)\n");
-	printf("----------------------------------------------------------------------------------------------------------------\n");
-	for(j = 1; j!= 0; j++)
+for(j = 1; j!= 0; j++)
 	{
 		fgets(itemcode, 5, stdin);
 		if(strcmp(itemcode, "0\n") == 0) {
@@ -361,7 +404,8 @@ int main() {
 	printf("\t\t\tTerms and conditions apply.*\n");
 	printf("\t\t\t** Thank you for shopping with us **\n");
 	printf("\n*Any goods purchased from us can be exchanged along with presenting the original cash memo within 15 days from the date of purchase on any working day. Any electrical appliance purchased, is eligible for repair under warranty only if the original cash memo is shown.\n");
-return 0;
+*/
+  return 0;
 }
 float amount(float p, int q, float r, float s)
 {
